@@ -6,36 +6,82 @@ import {
     Checkbox,
     ListItemSecondaryAction,
     IconButton,
-  } from "@material-ui/core";
+} from "@material-ui/core";
+import { DeleteOutlined } from '@material-ui/icons';
 
 class Todo extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { item: props.item };
+        this.state = { item: props.item, readOnly: true };
+        this.delete = props.delete;
 
-      }
+    }
+
+    // 삭제함수 추가
+    deleteEventHandler = () => {
+        this.delete(this.state.item)
+    }
+
+    // readonly 관련 함수 추가
+    // title 클릭시 실행함수 추가 => readonly 를 false 로
+    offReanOnlyMode = () => {
+        console.log("Event", this.state.readOnly)
+        this.setState({ readOnly: false }, () => {
+            console.log("ReadOnly?", this.state.readOnly)
+        })
+    }
+
+    // 엔터키
+    enterKeyEventHandler = (e) => {
+        if (e.key === "Enter") {
+            this.setState({readOnly : true})
+        }
+    }
+
+    // 수정함수
+    editEventHandler = (e) => {
+        const thisItem = this.state.item;
+        thisItem.title = e.target.value;
+        this.setState({item : thisItem});
+    }
+
+    // 체크박스
+    checkboxEventHandler = (e) => {
+        const thisItem = this.state.item;
+        thisItem.done = !thisItem.done;
+        this.setState({item : thisItem });
+    }
 
     render() {
 
         const item = this.state.item;
-        
+
         return (
             <ListItem>
-                <Checkbox checked={item.done} />
-                    <ListItemText>
-                        <InputBase
-                            inputProps={{"aria-label" : "naked"}}
-                            type="text"
-                            id={item.id}
-                            name={item.id}
-                            value={item.title}
-                            multiline={true}
-                            fullWidth={true}
-                        />
-                    </ListItemText>
+                <Checkbox checked={item.done} onChange={this.checkboxEventHandler} />
+                <ListItemText>
+                    <InputBase
 
+                        inputProps={{ "aria-label": "naked", readOnly: this.state.readOnly }}
+                        type="text"
+                        id={item.id}
+                        name={item.id}
+                        value={item.title}
+                        multiline={true}
+                        fullWidth={true}
+                        onClick={this.offReanOnlyMode}
+                        onKeyPress={this.enterKeyEventHandler}
+                        onChange={this.editEventHandler}
+                    />
+                </ListItemText>
 
+                {/* 삭제버튼 */}
+                <ListItemSecondaryAction>
+                    <IconButton aria-label="Delete Todo" onClick={this.deleteEventHandler}>
+                        <DeleteOutlined />
+                    </IconButton>
+                </ListItemSecondaryAction>
             </ListItem>
 
             // <div className="Todo">
