@@ -15,7 +15,7 @@ class Todo extends React.Component {
         super(props);
         this.state = { item: props.item, readOnly: true };
         this.delete = props.delete;
-
+        this.update = props.update;
     }
 
     // 삭제함수 추가
@@ -35,23 +35,25 @@ class Todo extends React.Component {
     // 엔터키
     enterKeyEventHandler = (e) => {
         if (e.key === "Enter") {
-            this.setState({readOnly : true})
+            this.setState({ readOnly: true });
+            this.update(this.state.item);
         }
-    }
+    };
 
     // 수정함수
     editEventHandler = (e) => {
         const thisItem = this.state.item;
         thisItem.title = e.target.value;
-        this.setState({item : thisItem});
+        this.setState({ item: thisItem });
     }
 
     // 체크박스
     checkboxEventHandler = (e) => {
         const thisItem = this.state.item;
         thisItem.done = !thisItem.done;
-        this.setState({item : thisItem });
-    }
+        this.setState({ item: thisItem });
+        this.update(this.state.item);
+    };
 
     render() {
 
