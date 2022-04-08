@@ -88,6 +88,35 @@ class App extends React.Component {
 
 
   }
+
+
+  
+  // 백엔드 api 콜
+  componentDidMount(){
+    const requestOptions = {
+      meththod : "GET",
+      headers : {"Connect-Type" : "application/json"}
+    };
+
+    fetch("http://localhost:8080/todo", requestOptions)
+      .then( (response) => response.json() )
+      .then(
+        (response) => {
+          this.setState({
+            items: response.data,
+          });
+        },
+
+        (error) => {
+          this.setState({
+            error,
+          });
+        }
+      );
+  }
+
+
+
 }
 
 
