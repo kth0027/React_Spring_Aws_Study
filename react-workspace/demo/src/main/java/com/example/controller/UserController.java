@@ -22,8 +22,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	
-	//M S
+	// M S
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@RequestBody UserDTO userDTO) {
 
@@ -46,14 +45,12 @@ public class UserController {
 
 		}
 	}
-	//M E
+	// M E
 
-	//M S
+	// M S
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO) {
-		UserEntity user = userService.getByCredentials(
-				userDTO.getEmail(),
-				userDTO.getPassword());
+		UserEntity user = userService.getByCredentials(userDTO.getEmail(), userDTO.getPassword());
 
 		if (user != null) {
 			final UserDTO responseUserDTO = UserDTO.builder().email(user.getEmail()).id(user.getId()).build();
@@ -61,13 +58,11 @@ public class UserController {
 			return ResponseEntity.ok().body(responseUserDTO);
 		} else {
 			ResponseDTO responseDTO = ResponseDTO.builder().error("Login failed").build();
-			
-			return ResponseEntity
-						.badRequest()
-						.body(responseDTO);
+
+			return ResponseEntity.badRequest().body(responseDTO);
 		}
 
 	}
-	//M E
+	// M E
 
 }
