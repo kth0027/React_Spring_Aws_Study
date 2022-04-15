@@ -1,13 +1,17 @@
+// eslint-disable-next-line no-unused-vars
 import React, { Component } from 'react';
 import "./index.css";
 import App from "./App";
 import LoginPage from "./LoginPage";
 
-import { BrowserRouter as BrowserRouter, Router, Switch, Route } from "react-router-dom";
+// eslint-disable-next-line no-useless-rename
+import { BrowserRouter as BrowserRouter, Switch, Route } from "react-router-dom";
 
 
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
+
+import SignUp from './SignUp';
 
 function Copyright() {
     return (
@@ -43,6 +47,9 @@ const AppRouter = () => {
                 <Switch>
                     <Route path="/login">
                         <LoginPage />
+                    </Route>
+                    <Route path="/signup">
+                        <SignUp />
                     </Route>
                     <Route path="/">
                         <App />
